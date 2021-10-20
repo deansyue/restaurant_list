@@ -28,6 +28,17 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
   res.render('show', { restaurant: restaurant })
 })
 
+// setting search page
+app.get('/search', (req, res) => {
+  const queryKeyword = req.query.keyword
+  const restaurant = restaurantList.results.filter((restaurant) => {
+    return restaurant.name.toLowerCase().includes(queryKeyword.toLowerCase()) || restaurant.category.toLowerCase().includes(queryKeyword.toLowerCase())
+  })
+
+  res.render('index', { restaurantIntroduction: restaurant, keyword: queryKeyword })
+
+})
+
 // express server listening
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
