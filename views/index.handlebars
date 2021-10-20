@@ -22,6 +22,11 @@
     <div class="col-md-10 col-12 mx-auto">
       <div class="card-columns">
 
+        <!--keyword search not data  -->
+        {{#unless restaurantIntroduction}}
+        <h1>查詢不到有包含{{keyword}}的餐廳</h1>
+        {{/unless}}
+
         <!--render multiple restaurant card -->
         {{#each restaurantIntroduction}}
         <a href="/restaurants/{{this.id}}" class="text-secondary">
