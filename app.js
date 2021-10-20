@@ -22,6 +22,12 @@ app.get('/', (req, res) => {
   res.render('index', { restaurantIntroduction: restaurantList.results })
 })
 
+// setting show page routing
+app.get('/restaurants/:restaurant_id', (req, res) => {
+  const restaurant = restaurantList.results.find((restaurant) => restaurant.id.toString() === req.params.restaurant_id)
+  res.render('show', { restaurant: restaurant })
+})
+
 // express server listening
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
