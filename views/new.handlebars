@@ -1,0 +1,54 @@
+<form action="/restaurants/new" method="POST">
+
+  <div class="container-sm">
+
+    <div class="form-group">
+      <label for="name">餐廳名稱：</label>
+      <input type="text" class="form-control col-7" id="name" placeholder="餐廳名稱" name="name">
+    </div>
+
+    <div class="form-group">
+      <label for="name_en">英文名稱：</label>
+      <input type="text" class="form-control col-7" id="name_en" placeholder="餐廳英文名稱" name="name_en">
+    </div>
+
+    <div class="form-group">
+      <label for="category">類別：</label>
+      <input type="text" class="form-control col-7" id="category" placeholder="餐廳類別" name="category">
+    </div>
+
+    <div class="form-group">
+      <label for="rating">分數：</label>
+      <input type="number" class="form-control col-7" min="0" max="10" step="0.1" id="rating" placeholder="餐廳分數"
+        name="rating">
+    </div>
+
+    <div class="form-group">
+      <label for="location">地址：</label>
+      <input type="text" class="form-control col-7" id="location" placeholder="地址" name="location">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">電話：</label>
+      <input type="text" class="form-control col-7" id="phone" placeholder="電話" name="phone">
+    </div>
+
+    <div class="form-group">
+      <label for="description">詳細內容：</label>
+      <textarea class="form-control col-7" id="description" placeholder="餐廳詳細內容" name="description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="image">餐廳圖片url路徑：</label>
+      <input type="text" class="form-control col-7" id="image" placeholder="餐廳圖片url路徑" name="image"
+        aria-describedby="imageHelp">
+      <small id="imageHelp" class="form-text text-muted">請輸入餐廳圖片所在的url路徑</small>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <a class="btn btn-info mr-2" href="/" role="button">Back</a>
+      <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+
+  </div>
+</form>
