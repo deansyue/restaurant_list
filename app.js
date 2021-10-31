@@ -49,17 +49,7 @@ app.get('/restaurants/new', (req, res) => {
 
 // router of click submit in new page
 app.post('/restaurants/new', (req, res) => {
-  const createData = req.body
-  return restaurantList.create({
-    name: createData.name,
-    name_en: createData.name_en,
-    category: createData.category,
-    rating: Number(createData.rating),
-    location: createData.location,
-    phone: createData.phone,
-    description: createData.description,
-    image: createData.image,
-  })
+  return restaurantList.create(req.body)
     .then(() => res.redirect('/'))
     .catch((error) => console.log(error))
 })
@@ -98,18 +88,10 @@ app.get('/restaurants/:restaurant_id/edit', (req, res) => {
 // router of click submit button in edit page
 app.post('/restaurants/:restaurant_id/edit', (req, res) => {
   const id = req.params.restaurant_id
-  const modifyData = req.body
+
   return restaurantList.findById(id)
     .then((restaurant) => {
-      restaurant.name = modifyData.name
-      restaurant.name_en = modifyData.name_en
-      restaurant.category = modifyData.category
-      restaurant.rating = Number(modifyData.rating)
-      restaurant.location = modifyData.location
-      restaurant.phone = modifyData.phone
-      restaurant.description = modifyData.description
-      restaurant.image = modifyData.image
-
+      Object.assign(restaurant, req.body)
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
