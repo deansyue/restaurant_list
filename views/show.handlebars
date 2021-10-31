@@ -43,9 +43,10 @@
 
         <a class="btn btn-info mr-2" href="/restaurants/{{restaurant._id}}/edit" role="button">Edit</a>
 
-        <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-info">Delete</button>
-        </form>
+
+        <button class="delete-button btn btn-info" data-id="{{restaurant._id}}" type="button"
+          class="btn btn-info">Delete</button>
+
       </div>
     </div>
   </div>

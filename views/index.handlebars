@@ -28,7 +28,11 @@
 
         <!--keyword search not data  -->
         {{#unless restaurantIntroduction}}
+        {{#if keyword}}
         <h1>查詢不到有包含{{keyword}}的餐廳</h1>
+        {{else}}
+        <h1>現在沒有任何餐廳資料</h1>
+        {{/if}}
         {{/unless}}
 
         <!--render multiple restaurant card -->
@@ -55,9 +59,8 @@
 
               <a class="btn btn-info" href="/restaurants/{{this._id}}/edit" role="button">Edit</a>
 
-              <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-info">Delete</button>
-              </form>
+              <button class="delete-button btn btn-info" data-id="{{this._id}}" type="button"
+                class="btn btn-info">Delete</button>
 
             </div>
 

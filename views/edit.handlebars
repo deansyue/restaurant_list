@@ -16,8 +16,17 @@
 
     <div class="form-group">
       <label for="category">類別：</label>
-      <input type="text" class="form-control col-7" id="category" placeholder="餐廳類別" name="category" value="{{
-        restaurant.category }}">
+      <input type="text" list="categories" class="form-control col-7" id="category" placeholder="餐廳類別" name="category"
+        value="{{
+        restaurant.category }}" aria-describedby="categoryHelp">
+      <datalist id="categories">
+        <option>中式料理</option>
+        <option>日式料理</option>
+        <option>美式料理</option>
+        <option>義式料理</option>
+        <option>法式料理</option>
+      </datalist>
+      <small id="categoryHelpHelp" class="form-text text-muted">可使用下拉選單選擇餐廳種類亦可輸入選單沒有的選項</small>
     </div>
 
     <div class="form-group">

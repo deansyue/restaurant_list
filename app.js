@@ -42,10 +42,12 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// router of click 新增參廳 button 
 app.get('/restaurants/new', (req, res) => {
   res.render('new')
 })
 
+// router of click submit in new page
 app.post('/restaurants/new', (req, res) => {
   const createData = req.body
   return restaurantList.create({
@@ -84,6 +86,7 @@ app.get('/search', (req, res) => {
 
 })
 
+// router of click edit button
 app.get('/restaurants/:restaurant_id/edit', (req, res) => {
   const id = req.params.restaurant_id
   return restaurantList.findById(id)
@@ -92,6 +95,7 @@ app.get('/restaurants/:restaurant_id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// router of click submit button in edit page
 app.post('/restaurants/:restaurant_id/edit', (req, res) => {
   const id = req.params.restaurant_id
   const modifyData = req.body
@@ -112,6 +116,7 @@ app.post('/restaurants/:restaurant_id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// router of click delete button
 app.post('/restaurants/:restaurant_id/delete', (req, res) => {
   const id = req.params.restaurant_id
   return restaurantList.findById(id)
