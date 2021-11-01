@@ -13,12 +13,14 @@
 4. 使用者可以新增餐廳資料
 5. 使用者可以刪除餐廳資料
 6. 使用者可以修改餐廳詳細資料
+7. 使用者可以使用排序欄位對資料進行排序
 
 ## Environment Setup 環境建置
 * Node.js： ^14.16.0
 * Express： ^4.17.1
 * Express-handlebars： ^5.3.4
 * mongoose： ^6.0.12
+* method-override: "^3.0.0"
 * mongodb
 
 ## Installing 專案安裝流程
