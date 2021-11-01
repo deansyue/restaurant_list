@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
 
 // loading data json
 // const restaurantList = require('./restaurant.json')
@@ -29,9 +30,10 @@ app.set('view engine', 'handlebars')
 
 // setting static files path
 app.use(express.static('public'))
-
 // setting urlencoded of req.body for express body-parser modules
 app.use(express.urlencoded({ extended: true }))
+// 設定每一筆請求都會透過 methodOverride 進行前置處理
+app.use(methodOverride('_method'))
 
 // setting home page routing
 app.get('/', (req, res) => {
@@ -86,7 +88,7 @@ app.get('/restaurants/:restaurant_id/edit', (req, res) => {
 })
 
 // router of click submit button in edit page
-app.post('/restaurants/:restaurant_id/edit', (req, res) => {
+app.put('/restaurants/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
 
   return restaurantList.findById(id)
@@ -99,7 +101,7 @@ app.post('/restaurants/:restaurant_id/edit', (req, res) => {
 })
 
 // router of click delete button
-app.post('/restaurants/:restaurant_id/delete', (req, res) => {
+app.delete('/restaurants/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   return restaurantList.findById(id)
     .then((restaurant) => restaurant.remove())
