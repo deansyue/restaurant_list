@@ -2,27 +2,13 @@
 const express = require('express')
 const app = express()
 const exphbs = require('express-handlebars')
-const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 
-// loading data json
-// const restaurantList = require('./restaurant.json')
-
-// loading mongodb Schema
-const restaurantList = require('./models/restaurant_list')
+// loading routes/index.js
+const routes = require('./routes')
 
 //setting routing port
 const port = 3000
-
-// connect mongodb server
-mongoose.connect('mongodb://localhost/restaurant_list')
-
-// return mongodb connect status
-const dbStatus = mongoose.connection
-
-dbStatus.on('error', () => console.log('mongodb connect error!'))
-
-dbStatus.once('open', () => console.log('mongodb connect!'))
 
 // setting layout and partial template
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -34,80 +20,9 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 // 設定每一筆請求都會透過 methodOverride 進行前置處理
 app.use(methodOverride('_method'))
+// 設定連接路由路徑
+app.use(routes)
 
-// setting home page routing
-app.get('/', (req, res) => {
-  // return database all data and render index page 
-  return restaurantList.find()
-    .lean()
-    .then((restaurantIntroduction) => res.render('index', { restaurantIntroduction }))
-    .catch(error => console.log(error))
-})
-
-// router of click 新增參廳 button 
-app.get('/restaurants/new', (req, res) => {
-  res.render('new')
-})
-
-// router of click submit in new page
-app.post('/restaurants/new', (req, res) => {
-  return restaurantList.create(req.body)
-    .then(() => res.redirect('/'))
-    .catch((error) => console.log(error))
-})
-
-// setting show page routing
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurantID = req.params.restaurant_id
-  return restaurantList.findById(restaurantID)
-    .lean()
-    .then((restaurant) => res.render('show', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-// setting search page
-app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
-
-  // use mongoose find database's all data and use filter function find data for keyword
-  return restaurantList.find()
-    .lean()
-    .then((restaurants) => restaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(keyword.trim().toLowerCase()) || restaurant.category.toLowerCase().includes(keyword.trim().toLowerCase())))
-    .then((restaurantIntroduction) => res.render('index', { restaurantIntroduction, keyword }))
-    .catch(error => console.log(error))
-
-})
-
-// router of click edit button
-app.get('/restaurants/:restaurant_id/edit', (req, res) => {
-  const id = req.params.restaurant_id
-  return restaurantList.findById(id)
-    .lean()
-    .then((restaurant) => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-// router of click submit button in edit page
-app.put('/restaurants/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-
-  return restaurantList.findById(id)
-    .then((restaurant) => {
-      Object.assign(restaurant, req.body)
-      return restaurant.save()
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
-})
-
-// router of click delete button
-app.delete('/restaurants/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-  return restaurantList.findById(id)
-    .then((restaurant) => restaurant.remove())
-    .then(() => res.redirect('/'))
-    .catch((error) => console.log(error))
-})
 
 // express server listening
 app.listen(port, () => {
