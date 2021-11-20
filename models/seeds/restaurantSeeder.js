@@ -10,5 +10,6 @@ dbStatus.once('open', () => {
   seedData.results.forEach(data => {
     restaurantList.create(data)
   })
-  console.log('done')
+  console.log('data is created')
+  process.exit()
 })
