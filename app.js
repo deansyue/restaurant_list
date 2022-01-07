@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const usePassport = require('./config/passport')
+const flash = require('connect-flash')
 
 //非正式上線，使用dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -37,10 +38,17 @@ app.use(methodOverride('_method'))
 // 呼叫 Passport 函式並傳入 app
 usePassport(app)
 
+//掛載flash套件
+app.use(flash())
+
 //設定本地變數
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+
+  //宣告flash 登入成功 失敗 顯示訊息
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
 
   next()
 })
