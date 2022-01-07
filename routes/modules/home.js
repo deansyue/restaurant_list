@@ -7,9 +7,10 @@ const restaurantList = require('../../models/restaurant_list')
 
 // setting home page routing
 router.get('/', (req, res) => {
-
+  const userId = req.user._id
+  
   // return database all data and render index page 
-  return restaurantList.find()
+  return restaurantList.find({ userId })
     .lean()
     .sort()
     .then((restaurantIntroduction) => res.render('index', { restaurantIntroduction }))

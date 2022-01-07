@@ -38,7 +38,8 @@ router.get('/', (req, res) => {
   }
 
   // use mongoose find database's all data and use filter function find data for keyword
-  return restaurantList.find()
+  const userId = req.user._id
+  return restaurantList.find({ userId })
     .lean()
     .sort(sort)
     .then((restaurants) => restaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(keyword.trim().toLowerCase()) || restaurant.category.toLowerCase().includes(keyword.trim().toLowerCase())))

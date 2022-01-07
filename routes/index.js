@@ -17,7 +17,7 @@ router.use('/restaurants', authenticator, restaurants)
 // 將網址結構符合 /users 字串開頭的 request 導向 users 模組
 router.use('/users', users)
 // 將網址結構符合 /search 字串開頭的 request 導向 search 模組
-router.use('/search', search)
+router.use('/search', authenticator, search)
 // 將網址結構符合 / 字串開頭的 request 導向 home 模組 
 router.use('/', authenticator, home)
 
