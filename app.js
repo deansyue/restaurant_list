@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 const routes = require('./routes')
 
 //setting routing port
-const port = 3000
+const port = process.env.PORT
 
 // setting layout and partial template
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))

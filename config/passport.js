@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 
@@ -19,7 +20,7 @@ module.exports = (app) => {
           .compare(password, user.password)
           .then(isMatch => {
             //輸入錯誤時
-            if (!isMatch) return done(null, false, req.flash('warning_msg', 'email或密碼輸入錯誤，請重新輸入!' ))
+            if (!isMatch) return done(null, false, req.flash('warning_msg', 'email或密碼輸入錯誤，請重新輸入!'))
 
             //密碼輸入正確時
             return done(null, user)
@@ -27,6 +28,35 @@ module.exports = (app) => {
 
       })
       .catch(err => done(err, false))
+  }))
+
+  //設定fb登入策略
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK,
+    profileFields: ['email', 'displayName']
+  }, (accessToken, refreshToken, profile, done) => {
+    const { name, email } = profile._json
+
+    User.findOne({ email })
+      .then(user => {
+        //資料庫已有資料直接登入
+        if (user) return done(null, user)
+
+        //資料庫沒有資料，先使用bcrypt產生密碼，再存入資料庫
+        const randomPassword = Math.random().toString(36).slice(-8)
+        bcrypt
+          .genSalt(10)
+          .then(salt => bcrypt.hash(randomPassword, salt))
+          .then(hash => User.create({
+            name,
+            email,
+            password: hash,
+          }))
+          .then(user => done(null, user))
+          .catch(err => done(err, false))
+      })
   }))
 
   // 設定序列化與反序列化
