@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
 
   //判斷若陣列有儲存資料， 渲染register頁面，並顯示錯誤訊息
   if (errors.length) {
-    return res.render('register', { errors, email, password, confirmPassword })
+    return res.render('register', { errors, name, email, password, confirmPassword })
   }
 
   //判斷資料庫是否有相同的email
